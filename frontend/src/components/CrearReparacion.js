@@ -30,7 +30,7 @@ export default class CrearReparacion extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://localhost:4000/api/reparaciones", {
+    const res = await axios.post("https://challenge-innspiral.herokuapp.com/api/reparaciones", {
       form: this.state.form,
     });
   };

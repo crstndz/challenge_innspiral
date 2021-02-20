@@ -24,7 +24,7 @@ export default class AutosList extends Component {
 
   getAutosxCliente = async () => {
     const res = await axios.get(
-      `http://localhost:4000/api/clientes/${this.state.id}/autos`
+      `https://challenge-innspiral.herokuapp.com/api/clientes/${this.state.id}/autos`
     );
     this.setState({ autos: res.data });
   };
@@ -41,7 +41,7 @@ export default class AutosList extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     const res = await axios.post(
-      `http://localhost:4000/api/clientes/${this.state.id}/autos`,
+      `https://challenge-innspiral.herokuapp.com/api/clientes/${this.state.id}/autos`,
       {
         form: this.state.form,
       }

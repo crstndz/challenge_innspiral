@@ -17,7 +17,7 @@ export default class CrearCliente extends Component {
   }
 
   getClientes = async () => {
-    const res = await axios.get(`http://localhost:4000/api/clientes`);
+    const res = await axios.get(`https://challenge-innspiral.herokuapp.com/api/clientes`);
     this.setState({ clientes: res.data });
     console.log("get", this.state.clientes);
   };
@@ -34,7 +34,7 @@ export default class CrearCliente extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     console.log("send", this.state.form);
-    const res = await axios.post("http://localhost:4000/api/clientes", {
+    const res = await axios.post("https://challenge-innspiral.herokuapp.com/api/clientes", {
       form: this.state.form,
     });
     this.setState({

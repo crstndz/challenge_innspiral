@@ -17,7 +17,7 @@ export default class ReparacionesList extends Component {
 
   async componentDidMount() {
     const res = await axios.get(
-      `http://localhost:4000/api/reparaciones/auto/${this.state.placa}`
+      `https://challenge-innspiral.herokuapp.com/api/reparaciones/auto/${this.state.placa}`
     );
     this.setState({ reparaciones: res.data });
   }
