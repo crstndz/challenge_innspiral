@@ -163,6 +163,10 @@ export default class AutosList extends Component {
                             pathname: "/",
                             autoProps: {
                               placa: auto.placa,
+                              marca: auto.marca,
+                              modelo: auto.modelo,
+                              cliente: this.state.form.cliente,
+                              nombre: this.state.nombre,
                             },
                           }}
                         >
