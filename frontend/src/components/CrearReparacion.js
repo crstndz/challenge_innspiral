@@ -19,6 +19,32 @@ export default class CrearReparacion extends Component {
     },
   };
 
+  async componentDidMount() {
+    const placa = this.props.location.autoProps.placa;
+    const cliente = this.props.location.autoProps.cliente;
+    console.log("placa", placa);
+    console.log("cliente", cliente);
+
+    if ("" == placa && "" == cliente) {
+      const res = await axios.get(`/api/reparaciones/autos`);
+      this.setState({ reparaciones: res.data });
+    } else {
+      const resCliente = await axios.get(`/api/clientes/${cliente}`);
+      const resAuto = await axios.get(`/api/autos/${placa}`);
+
+      this.setState({
+        form: {
+          nombre: resCliente.data[0].nombre,
+          id: resCliente.data[0].id,
+          contacto: resCliente.data[0].contacto,
+          placa: resAuto.data[0].placa,
+          marca: resAuto.data[0].marca,
+          modelo: resAuto.data[0].modelo,
+        },
+      });
+    }
+  }
+
   handleChange = (e) => {
     this.setState({
       form: {
@@ -30,13 +56,14 @@ export default class CrearReparacion extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://localhost:4000/api/reparaciones", {
+    const res = await axios.post("/api/reparaciones/", {
       form: this.state.form,
     });
+    window.location.href = "/";
   };
 
   handleOnChangeDate = (fecha) => {
-    this.setState({ form: { fecha } });
+    this.setState({ form: { ...this.state.form, fecha } });
   };
 
   render() {
@@ -60,6 +87,7 @@ export default class CrearReparacion extends Component {
                   id="inputNombre"
                   onChange={this.handleChange}
                   name="nombre"
+                  value={this.state.form.nombre}
                 />
               </div>
               <div className="col-md-4">
@@ -72,6 +100,7 @@ export default class CrearReparacion extends Component {
                   id="inputIden"
                   onChange={this.handleChange}
                   name="id"
+                  value={this.state.form.id}
                 />
               </div>
               <div className="col-md-4">
@@ -84,6 +113,7 @@ export default class CrearReparacion extends Component {
                   id="inputContact"
                   onChange={this.handleChange}
                   name="contacto"
+                  value={this.state.form.contacto}
                 />
               </div>
             </div>
@@ -103,6 +133,7 @@ export default class CrearReparacion extends Component {
                   id="inputPlaca"
                   onChange={this.handleChange}
                   name="placa"
+                  value={this.state.form.placa}
                 />
               </div>
               <div className="col-md-4">
@@ -115,6 +146,7 @@ export default class CrearReparacion extends Component {
                   id="inputMarca"
                   onChange={this.handleChange}
                   name="marca"
+                  value={this.state.form.marca}
                 />
               </div>
               <div className="col-md-4">
@@ -127,6 +159,7 @@ export default class CrearReparacion extends Component {
                   id="inputModelo"
                   onChange={this.handleChange}
                   name="modelo"
+                  value={this.state.form.modelo}
                 />
               </div>
             </div>
@@ -157,7 +190,6 @@ export default class CrearReparacion extends Component {
                   name="fecha"
                   className="form-control"
                   dateFormat="dd/MM/yyyy"
-                  minDate={new Date()}
                   selected={this.state.form.fecha}
                   onChange={this.handleOnChangeDate}
                 />
@@ -170,7 +202,7 @@ export default class CrearReparacion extends Component {
                   className="form-control"
                   id="inputDetalle"
                   onChange={this.handleChange}
-                  name="reparacion.detalle"
+                  name="detalle"
                 />
               </div>
             </div>

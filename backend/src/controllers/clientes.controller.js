@@ -12,19 +12,25 @@ clientesCtrl.crearCliente = async (req, res) => {
   const cliente = await Cliente.find({ id });
   if (cliente.length == 0) {
     await clienteNuevo.save();
+  } else {
+    res.status(400).json({
+      message: "Cliente ya existe",
+    });
   }
 
   res.json({ message: "Cliente Guardado" });
 };
 
 clientesCtrl.getClientes = async (req, res) => {
-  const clientes = await Cliente.find();
-  res.json(clientes);
+  await Cliente.find()
+    .then((clientes) => res.json(clientes))
+    .catch((err) => console.log(err));
 };
 
 clientesCtrl.getCliente = async (req, res) => {
-  const cliente = await Cliente.findById(req.params.id);
-  res.json(cliente);
+  await Cliente.find({ id: req.params.id })
+    .then((cliente) => res.json(cliente))
+    .catch((err) => console.log(err));
 };
 
 module.exports = clientesCtrl;

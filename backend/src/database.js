@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const URI = process.env.MONGODB_URI
   ? process.env.MONGODB_URI
-  : "mongodb://localhost/datatest";
+  : "mongodb://localhost/tallerpp";
 
 mongoose.connect(URI, {
   useNewUrlParser: true,
@@ -11,7 +11,11 @@ mongoose.connect(URI, {
   useFindAndModify: true,
 });
 
-const connection = mongoose.connection;
-connection.once("open", () => {
-  console.log("DB is connected");
-});
+mongoose
+  .connect(URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
+  .then(() => console.log("DB is connected"))
+  .catch((err) => console.log(err));

@@ -17,9 +17,8 @@ export default class CrearCliente extends Component {
   }
 
   getClientes = async () => {
-    const res = await axios.get(`http://localhost:4000/api/clientes`);
+    const res = await axios.get(`/api/clientes`);
     this.setState({ clientes: res.data });
-    console.log("get", this.state.clientes);
   };
 
   handleChange = (e) => {
@@ -33,8 +32,7 @@ export default class CrearCliente extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("send", this.state.form);
-    const res = await axios.post("http://localhost:4000/api/clientes", {
+    const res = await axios.post("/api/clientes", {
       form: this.state.form,
     });
     this.setState({
@@ -142,8 +140,7 @@ export default class CrearCliente extends Component {
                           to={{
                             pathname: "/autos",
                             autoProps: {
-                              id: cliente.id,
-                              nombre: cliente.nombre,
+                              cliente: cliente.id,
                             },
                           }}
                         >

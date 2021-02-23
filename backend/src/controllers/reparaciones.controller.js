@@ -4,14 +4,17 @@ const Cliente = require("../models/Cliente");
 const Reparacion = require("../models/Reparacion");
 
 reparacionesCtrl.getReparaciones = async (req, res) => {
-  const reparaciones = await Reparacion.find();
-  res.json(reparaciones);
+  await Reparacion.find()
+    .sort({ fecha: "desc" })
+    .then((reparaciones) => res.json(reparaciones))
+    .catch((err) => console.log(err));
 };
 
 reparacionesCtrl.getReparacionesxAuto = async (req, res) => {
   const placa = req.params.id;
-  const reparaciones = await Reparacion.find({ placa });
-  res.json(reparaciones);
+  await Reparacion.find({ placa })
+    .then((reparaciones) => res.json(reparaciones))
+    .catch((err) => console.log(err));
 };
 
 reparacionesCtrl.crearReparacion = async (req, res) => {
@@ -26,7 +29,6 @@ reparacionesCtrl.crearReparacion = async (req, res) => {
     fecha,
     detalle,
   } = req.body.form;
-  console.log(req.body);
 
   const clienteNuevo = new Cliente({
     id,
@@ -45,14 +47,18 @@ reparacionesCtrl.crearReparacion = async (req, res) => {
     modelo,
     cliente: id,
   });
-  await autoNuevo.save();
+
+  const auto = await Auto.find({ placa: placa });
+  if (auto.length == 0) {
+    await autoNuevo.save();
+  }
 
   const reparacionNueva = new Reparacion({
     placa,
     fecha,
     responsable,
     detalle,
-    cliente: nombre
+    cliente: nombre,
   });
   await reparacionNueva.save();
 
