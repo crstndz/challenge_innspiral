@@ -170,14 +170,7 @@ export default class AutosList extends Component {
                             pathname: "/reparaciones",
                             autoProps: {
                               placa: auto.placa,
-<<<<<<< HEAD
-                              marca: auto.marca,
-                              modelo: auto.modelo,
-                              cliente: this.state.form.cliente,
-                              nombre: this.state.nombre,
-=======
                               cliente: auto.cliente,
->>>>>>> develop
                             },
                           }}
                         >
