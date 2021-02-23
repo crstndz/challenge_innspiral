@@ -7,25 +7,32 @@ export default class AutosList extends Component {
     super(props);
     this.state = {
       autos: [],
-      id: this.props.location.autoProps.id,
-      nombre: this.props.location.autoProps.nombre,
+      cliente: {},
       form: {
         placa: "",
         marca: "",
         modelo: "",
-        cliente: this.props.location.autoProps.id,
+        cliente: "",
       },
     };
   }
 
   async componentDidMount() {
-    this.getAutosxCliente();
+    if (this.props.location.autoProps != undefined) {
+      this.getCliente();
+      this.getAutosxCliente();
+    }
   }
 
+  getCliente = async () => {
+    const id = this.props.location.autoProps.cliente;
+    const res = await axios.get(`/api/clientes/${id}`);
+    this.setState({ cliente: res.data[0] });
+  };
+
   getAutosxCliente = async () => {
-    const res = await axios.get(
-      `http://localhost:4000/api/clientes/${this.state.id}/autos`
-    );
+    const id = this.props.location.autoProps.cliente;
+    const res = await axios.get(`/api/clientes/${id}/autos`);
     this.setState({ autos: res.data });
   };
 
@@ -41,7 +48,7 @@ export default class AutosList extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     const res = await axios.post(
-      `http://localhost:4000/api/clientes/${this.state.id}/autos`,
+      `/api/clientes/${this.state.cliente.id}/autos`,
       {
         form: this.state.form,
       }
@@ -51,7 +58,7 @@ export default class AutosList extends Component {
         placa: "",
         marca: "",
         modelo: "",
-        cliente: this.props.location.autoProps.id,
+        cliente: this.state.cliente.id,
       },
     });
     this.getAutosxCliente();
@@ -79,7 +86,7 @@ export default class AutosList extends Component {
                     </label>
                     <div className="col-lg-8">
                       <label className="col-form-label form-control-label">
-                        {this.state.nombre}
+                        {this.state.cliente.nombre}
                       </label>
                     </div>
                   </div>
@@ -160,9 +167,10 @@ export default class AutosList extends Component {
                       <td>
                         <Link
                           to={{
-                            pathname: "/",
+                            pathname: "/reparaciones",
                             autoProps: {
                               placa: auto.placa,
+                              cliente: auto.cliente,
                             },
                           }}
                         >

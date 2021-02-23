@@ -8,24 +8,33 @@ export default class ReparacionesList extends Component {
     super(props);
     this.state = {
       reparaciones: [],
-      placa:
-        this.props.location.autoProps != undefined
-          ? this.props.location.autoProps.placa
-          : "",
+      placa: "",
+      cliente: {},
     };
   }
 
   async componentDidMount() {
-    const res = await axios.get(
-      `http://localhost:4000/api/reparaciones/auto/${this.state.placa}`
-    );
-    this.setState({ reparaciones: res.data });
+    if (this.props.location.autoProps != undefined) {
+      const placa = this.props.location.autoProps.placa;
+      const res = await axios.get(`/api/reparaciones/auto/${placa}`);
+      this.setState({ reparaciones: res.data, placa });
+      this.getCliente();
+    } else {
+      const res = await axios.get(`/api/reparaciones/autos`);
+      this.setState({ reparaciones: res.data });
+    }
   }
+
+  getCliente = async () => {
+    const id = this.props.location.autoProps.cliente;
+    const res = await axios.get(`/api/clientes/${id}`);
+    this.setState({ cliente: res.data[0] });
+  };
 
   render() {
     return (
       <>
-        <div className="row">
+        <div className="row p-4">
           <table className="table table-sm">
             <caption>Lista de Reparaciones</caption>
             <thead>
@@ -48,7 +57,7 @@ export default class ReparacionesList extends Component {
                       <td>
                         <Moment format="DD/MM/YYYY">{reparacion.fecha}</Moment>
                       </td>
-                      <td>{reparacion.cliente}</td>
+                      <td>{this.state.cliente.nombre}</td>
                       <td>{reparacion.placa}</td>
                       <td>{reparacion.detalle}</td>
                     </tr>
@@ -63,7 +72,18 @@ export default class ReparacionesList extends Component {
           </table>
         </div>
         <div className="row">
-          <Link to="/reparaciones" className="btn btn-primary"> Nueva Reparación </Link>
+          <Link
+            to={{
+              pathname: "/nuevareparacion",
+              autoProps: {
+                placa: this.state.placa,
+                cliente: this.state.cliente.id,
+              },
+            }}
+            className="btn btn-primary"
+          >
+            Nueva Reparación
+          </Link>
         </div>
       </>
     );

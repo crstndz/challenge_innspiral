@@ -13,7 +13,8 @@ function App() {
       <div className="container">
         <Navigation />
         <Route path="/" exact component={ReparacionesList} />
-        <Route path="/reparaciones" exact component={CrearReparacion} />
+        <Route path="/reparaciones" exact component={ReparacionesList} />
+        <Route path="/nuevareparacion" exact component={CrearReparacion} />
         <Route path="/clientes" exact component={ClientesList} />
         <Route path="/autos" exact component={AutosList} />
       </div>

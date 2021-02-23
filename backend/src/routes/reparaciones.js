@@ -10,6 +10,6 @@ const {
 router.route("/").post(crearReparacion);
 
 router.route("/auto/:id").get(getReparacionesxAuto);
-router.route("/auto").get(getReparaciones);
+router.route("/autos").get(getReparaciones);
 
 module.exports = router;
