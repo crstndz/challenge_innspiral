@@ -1,0 +1,299 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"description": "APIs para Talleres Perez & Perez",
+		"version": "1.0.0",
+		"title": "Challenge Innspiral"
+	},
+	"host": "<host>",
+	"basePath": "/api",
+	"tags": [{
+			"name": "clientes",
+			"description": "Access to Cliente data"
+		},
+		{
+			"name": "reparaciones",
+			"description": "Access to Reparacion data"
+		},
+		{
+			"name": "autos",
+			"description": "Access to Auto data"
+		}
+	],
+	"schemes": ["http"],
+	"paths": {
+		"/clientes": {
+			"post": {
+				"tags": [
+					"clientes"
+				],
+				"summary": "Add a new Cliente to the system",
+				"parameters": [{
+					"in": "body",
+					"name": "form",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/Cliente"
+					}
+				}],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				}
+			},
+            "get": {
+				"tags": [
+					"clientes"
+				],
+				"summary": "Return all Cliente to the system",
+				"parameters": [{
+					
+				}],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Return Array with all element",
+						"schema": {
+							"$ref": "#/definitions/Cliente"
+						}
+					}
+				}
+			}
+		},
+		"/clientes/{id}": {
+			"get": {
+				"tags": [
+					"clientes"
+				],
+				"summary": "Find Cliente by id",
+				"parameters": [{
+					"in": "params",
+					"name": "id",
+					"required": true,
+					"type": "string"
+				}],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Return Array with one element",
+						"schema": {
+							"$ref": "#/definitions/Cliente"
+						}
+					}
+				}
+			}
+		},
+		"/clientes/{id}/autos": {
+            "post": {
+				"tags": [
+					"clientes"
+				],
+				"summary": "Add new Auto by Cliente id",
+				"parameters": [{
+					"in": "params",
+					"name": "id",
+					"required": true,
+					"type": "string"
+				},{
+					"in": "body",
+					"name": "form",
+					"required": true,
+					"schema": {
+                        "$ref": "#/definitions/Auto"
+                    }
+				}],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Return Array with one element",
+						"schema": {
+							"$ref": "#/definitions/Auto"
+						}
+					}
+				}
+			},            
+			"get": {
+				"tags": [
+					"clientes"
+				],
+				"summary": "Find Autos by Cliente id",
+				"parameters": [{
+					"in": "params",
+					"name": "id",
+					"required": true,
+					"type": "string"
+				}],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+                        "description": "Return Array with one element",
+						"schema": {
+							"$ref": "#/definitions/Auto"
+						}
+					}
+				}
+			}
+		},
+        "/reparaciones": {
+			"post": {
+				"tags": [
+					"reparaciones"
+				],
+				"summary": "Add a new Reparacion to the system by Auto of Cliente",
+				"parameters": [{
+					"in": "body",
+					"name": "form",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/Reparacion"
+					}
+				}],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				}
+			}
+		},
+        "/reparaciones/autos": {
+			"get": {
+				"tags": [
+					"reparaciones"
+				],
+				"summary": "Return all Reparaciones",
+				"parameters": [{
+				
+				}],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Return Array with all element",
+                        "schema": {
+                            "$ref": "#/definitions/Reparacion"
+                        }
+					}
+				}
+			}
+		},
+        "/reparaciones/autos/{id}": {
+			"get": {
+				"tags": [
+					"reparaciones"
+				],
+				"summary": "Return all Reparaciones by Auto",
+				"parameters": [{
+                    "in": "params",
+					"name": "id",
+					"required": true,
+					"type": "string"
+				}],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Return Array with one element",
+                        "schema": {
+                            "$ref": "#/definitions/Reparacion"
+                        }
+					}
+				}
+			}
+		},
+        "/autos/{id}": {
+			"get": {
+				"tags": [
+					"autos"
+				],
+				"summary": "Find Auto by placa",
+				"parameters": [{
+                    "in": "params",
+					"name": "id",
+					"required": true,
+					"type": "string"
+				}],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Return Array with one element",
+                        "schema": {
+                            "$ref": "#/definitions/Auto"
+                        }
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"Cliente": {
+			"required": ["id"],
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+
+				"nombre": {
+					"type": "string"
+				},
+				"contacto": {
+					"type": "integer"
+				}
+			}
+		},
+
+		"Auto": {
+			"properties": {
+				"placa": {
+					"type": "string"
+				},
+				"marca": {
+					"type": "string"
+				},
+				"modelo": {
+					"type": "string"
+				},
+				"cliente": {
+					"type": "string"
+				}
+			}
+		},
+		"Reparacion": {
+			"properties": {
+				"placa": {
+					"type": "string"
+				},
+				"fecha": {
+					"type": "date"
+				},
+				"responsable": {
+					"type": "string"
+				},
+				"detalle": {
+					"type": "string"
+				},
+				"cliente": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
